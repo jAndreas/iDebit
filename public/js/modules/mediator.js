@@ -1,5 +1,3 @@
-"use strict";
-
 /* 
  * mediator.js
  * ------------------------------
@@ -18,9 +16,12 @@
  * Changed: 2012-06-20 - moved code into a commonJS module
  */
 
-define(function( require, exports, module ) {
+define([ 'es5shim', 'tools' ], function( es5shim, tools ) {
+	"use strict";
+	
 	var messagePool	= Object.create( null ),
 		Public		= Object.create( null ),
+		type		= tools.type,
 		win			= window,
 		doc			= win.document,
 		undef;
@@ -29,7 +30,7 @@ define(function( require, exports, module ) {
 		win.setTimeout(function _setTimeoutDispatch() {
 			var listenerCount = 0;
 			
-			if( Object.type( messageInfo ) === 'Object' ) {
+			if( type( messageInfo ) === 'Object' ) {
 				if( typeof messageInfo.name === 'string' ) {
 			//console.groupCollapsed('MEDIATOR: Dispatching event ', messageInfo.name);
 					if( messageInfo.name in messagePool ) {
@@ -63,7 +64,7 @@ define(function( require, exports, module ) {
 	};
 
 	Public.on = function _listen( eventName, callback, scope ) {
-		if( Object.type( eventName ) !== 'Array' ) {
+		if( type( eventName ) !== 'Array' ) {
 			eventName = [ eventName ];
 		}
 	//console.info('MEDIATOR: Listening for ', eventName, 'method: ', callback);	
@@ -83,13 +84,13 @@ define(function( require, exports, module ) {
 	};
 	
 	Public.off = function _forget( eventName, callback ) {
-		if( Object.type( eventName ) !== 'Array' ) {
+		if( type( eventName ) !== 'Array' ) {
 			eventName = [ eventName ];
 		}
 	//console.info('MEDIATOR: Forgetting for ', eventName, 'method: ', callback);
 		eventName.forEach(function( event ) {
 			if( typeof event === 'string' ) {
-				if( messagePool[ event ] && Object.type( messagePool[ event ] ) === 'Array' ) {
+				if( messagePool[ event ] && type( messagePool[ event ] ) === 'Array' ) {
 					if( callback === undef ) {
 						messagePool[ event ] = [ ];
 					}

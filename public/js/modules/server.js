@@ -1,8 +1,6 @@
-"use strict";
-
-define(function( require, exports, module ) {
-	var deferred	= require( 'deferred' );
-		
+define([ 'deferred', 'socket.io' ], function( deferred, io ) {
+	"use strict";
+	
 	var Public		= Object.create( null ),
 		socket		= io.connect('http://typeofnan.com:80/');
 		

@@ -1,17 +1,29 @@
-"use strict";
-
-requirejs.config({
-	baseUrl: 'js/modules',
-	paths: {
-		app: '../app'
-	}
-});
-
-require([ 'es5shim', 'tools' ], function() {
-	console.log('app entry point');
+(function _initMain() {
+	"use strict";
 	
-	require([ 'domready!' ], function( doc ) {
-		console.log('domReady, loading GUI modules...');
-		require([ 'GUI/window', 'GUI/header', 'GUI/content' ]);
+	requirejs.config({
+		baseUrl: '/js/modules',
+		paths: {
+			app: '../app'
+		}
 	});
-});
+	
+	require([	'es5shim',
+				'tools',
+				'domready',
+				'GUI/window',
+				'GUI/header',
+				'GUI/content' ], main );
+				
+	function main( es5, tools, domReady, mWindow, mHeader, mContent ) {
+		console.log('app entry point');
+		
+		domReady(function( doc ) {
+			console.log('domReady, loading GUI modules...');
+			
+			mWindow.init();
+			mHeader.init();
+			mContent.init();
+		});
+	}
+}());

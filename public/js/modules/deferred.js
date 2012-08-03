@@ -1,6 +1,6 @@
 "use strict";
 
-define(function( require, exports ) {
+define(function() {
 	function isArray(arr) {
 		return Object.prototype.toString.call(arr) === '[object Array]';
 	}

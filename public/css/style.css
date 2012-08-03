@@ -281,7 +281,7 @@ div.content {
 
 div.login {
 	display: block;
-	position: relative;
+	position: absolute;
 }
 
 div.login span {
@@ -313,7 +313,7 @@ div.login span.register {
 
 div.app {
 	display: none;
-	position: relative;
+	position: absolute;
 }
 
 div.app span.title {

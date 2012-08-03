@@ -1,18 +1,25 @@
-"use strict";
+define([ 'deferred', 'mediator', 'server', 'tools' ], function( deferred, mediator, server, tools ) {
+	"use strict";
 
-define(function( require, exports, module ) {
-	var deferred	= require( 'deferred' ),
-		mediator	= require( 'mediator' ),
-		server		= require( 'server' ),
-		when		= Function.prototype.apply.bind( deferred.when, null );
+	var Public	= Object.create( null ),
+		when	= Function.prototype.apply.bind( deferred.when, null );
 	
-	document.addEventListener( 'DOMContentLoaded', DOMready, false );
-	window.addEventListener( 'load', onLoad, false );
-	window.addEventListener( 'beforeunload', onBeforeUnload, false );
+	tools.mixin( Public ).with({
+		init:		init,
+		destroy:	destroy
+	});
 	
-	// locals
-	function DOMready() {
-		mediator.emit({ name: 'DOMready' });
+	return Public;
+	
+	// -- local helpers --
+	function init() {
+		console.log( 'window.js init' );
+	
+		window.addEventListener( 'load', onLoad, false );
+		window.addEventListener( 'beforeunload', onBeforeUnload, false );
+	}
+	
+	function destroy() {
 	}
 	
 	function onLoad() {

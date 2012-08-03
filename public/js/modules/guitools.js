@@ -1,18 +1,44 @@
-define(function( require, exports, module ) {
+define([ 'es5shim', 'tools' ], function( es5shim, tools ) {
 	"use strict";
 
-	var nodeHash, availableNames;
-
-	return {
-		cacheNodes: cacheNodes
-	};
+	var Public	= Object.create( null ),
+		win		= window,
+		doc		= win.document,
+		type	= tools.type,
+		nodeHash, availableNames;
+	
+	tools.mixin( Public ).with({
+		cacheNodes:		cacheNodes,
+		By:				{
+			id: function byId(id) {
+				return doc.getElementById( id );
+			},
+			tag: function byTagName( tag, context ) {
+				return (context || doc).getElementsByTagName( tag );
+			},
+			className: function byClass( className, context ) {
+				return (context || doc).getElementsByClassName( className );
+			},
+			name: function byName( name ) {
+				return doc.getElementsByName( name );
+			},
+			qsa: function byQuery(query, context) {
+				return (context || doc).querySelectorAll( query );
+			},
+			qs: function byQueryOne(query, context) {
+				return (context || doc).querySelector( query );
+			}
+		}
+	});
+	
+	return Public;
 	
 	// -- local helpers --
 	function crawlNodes( node ) {
 		var currentTag = null,
 			i, len;
 	
-		if( Object.type( node ) === 'Node' ) {
+		if( type( node ) === 'Node' ) {
 			currentTag = node.id ? node.nodeName + '#' + node.id : null || node.className ? node.nodeName + "." + node.className.split( /\s+/ )[ 0 ] : null || node.nodeName;
 			
 			// avoid duplicates, keep track on the number of identical identifiers

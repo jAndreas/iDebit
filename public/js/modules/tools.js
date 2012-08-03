@@ -1,15 +1,35 @@
-define(function() {
+define([ 'es5shim' ], function( es5shim ) {
 	"use strict";
 	
-	var toStr		= Object.prototype.toString,
+	var Public		= Object.create( null ),
+		toStr		= Object.prototype.toString,
+		desc		= Object.getOwnPropertyDescriptor,
+		defineProp	= Object.defineProperty,
+		props		= Object.getOwnPropertyNames,
 		slice		= Array.prototype.slice,
 		lastError	= [ ],
 		win			= window,
 		doc			= win.document,
 		undef;
+		
+	// mixin() - extends an object by with a source
+	Public.mixin = function _mixin( target ) {
+		return {
+			with: function( source ) {
+				props( source ).forEach( loopKeys );
+			
+				return target;
+				
+				// -- local helpers --
+				function loopKeys( key ) {
+					defineProp( target, key, desc( source, key ) );
+				}
+			}
+		};
+	};
 
-	// Object.type() - Non-standard. Returns the [[Class]] property from an object. Returns 'Node' for all HTMLxxxElement collections
-	Object.type = function _type( obj ) {
+	// .type() - Non-standard. Returns the [[Class]] property from an object. Returns 'Node' for all HTMLxxxElement collections
+	Public.type = function _type( obj ) {
 		var res = toStr.call( obj ).split( ' ' )[ 1 ].replace( ']', '' );
 		
 		if( obj === win ) {
@@ -25,13 +45,13 @@ define(function() {
 		return ( win.setLastError( res ) );
 	};
 	
-	// Object.hasKeys() - Non-standard. Returns true if all keys are available in an object
-	Object.hasKeys = function _hasKeys( obj, keys ) {
+	// .hasKeys() - Non-standard. Returns true if all keys are available in an object
+	Public.hasKeys = function _hasKeys( obj, keys ) {
 		if( typeof keys === 'string' ) {
 			keys = keys.split( /\s/ );
 		}
 		
-		if( Object.type( obj ) === 'Object' ) {
+		if( Public.type( obj ) === 'Object' ) {
 			if( Object.type( keys ) === 'Array' ) {
 				return keys.every( checkProp );
 			}
@@ -44,9 +64,9 @@ define(function() {
 		}
 	};
 	
-	// Object.map - Non-standard. Takes an object and a transform method (which gets passed in key/values). The Method must return an Array with new key/value pair
-	Object.map = function _map( obj, transform ) {
-		if( Object.type( obj ) === 'Object' && Object.type( transform ) === 'Function' ) {
+	// .map - Non-standard. Takes an object and a transform method (which gets passed in key/values). The Method must return an Array with new key/value pair
+	Public.map = function _map( obj, transform ) {
+		if( Public.type( obj ) === 'Object' && Public.type( transform ) === 'Function' ) {
 			Object.keys( obj ).forEach(function _forEach( key ) {
 				(function _mapping( oldkey, transmuted ) {
 					if( transmuted && transmuted.length ) {
@@ -64,7 +84,7 @@ define(function() {
 	// simplified sprintf() - Non-standard
 	String.prototype.sFormat = function _simpleFormat( map ) {
 		var myString	= this.toString(),
-			args		= Object.type( map ) === 'Array' ? map : slice.call( arguments ),
+			args		= Public.type( map ) === 'Array' ? map : slice.call( arguments ),
 			next		= 0;
 	
 		while( ~myString.indexOf( '%r' ) ) {
@@ -74,8 +94,8 @@ define(function() {
 		return myString;
 	};
 	
-	// window.requestAnimationFrame()
-	win.requestAnimFrame = (function() {
+	// .requestAnimationFrame()
+	Public.requestAnimFrame = (function() {
 		return	win.requestAnimationFrame       || 
 				win.webkitRequestAnimationFrame || 
 				win.mozRequestAnimationFrame    || 
@@ -117,27 +137,6 @@ define(function() {
 			return err;
 		}
 	};
-		
-	win.By = {
-		id: function byId(id) {
-			return doc.getElementById( id );
-		},
-		tag: function byTagName( tag, context ) {
-			return (context || doc).getElementsByTagName( tag );
-		},
-		className: function byClass( className, context ) {
-			return (context || doc).getElementsByClassName( className );
-		},
-		name: function byName( name ) {
-			return doc.getElementsByName( name );
-		},
-		qsa: function byQuery(query, context) {
-			return (context || doc).querySelectorAll( query );
-		},
-		qs: function byQueryOne(query, context) {
-			return (context || doc).querySelector( query );
-		}
-	};
 	
 	// create a console object if not availabe and fill it with noop-methods, which the "real" console objects can offer
 	// this will avoid errors, if there is an access to a console-method on browsers which doesn't supplys a debugger
@@ -148,4 +147,6 @@ define(function() {
 			win.console[ prop ] = function() { };
 		});
 	}
+	
+	return Public;
 });

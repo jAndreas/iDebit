@@ -1,12 +1,24 @@
-define(function( require, exports, module ) {
+define([ 'guitools', 'deferred', 'mediator', 'tools' ], function( guiTools, deferred, mediator, tools ) {
 	"use strict";
-
-	var guiTools	= require( 'guitools' ),
-		deferred	= require( 'deferred' ),
-		mediator	= require( 'mediator' );
 		
 	var Public		= Object.create( null ),
-		nodes		= guiTools.cacheNodes( By.className( 'header' )[ 0 ] );
+		By			= guiTools.By,
+		nodes;
 		
-	//console.log('Hi I am header, my rootNode is: ', rootNode);
+	tools.mixin( Public ).with({
+		init:		init,
+		destroy:	destroy
+	});
+	
+	return Public;
+		
+	// -- local helpers --	
+	function init() {
+		console.log( 'header.js init' );
+		
+		nodes = guiTools.cacheNodes( By.className( 'header' )[ 0 ] );
+	}
+	
+	function destroy() {
+	}
 });

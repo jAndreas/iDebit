@@ -1,22 +1,35 @@
-define(function( require, exports, module ) {
+define([ 'guitools', 'deferred', 'mediator', 'server', 'tools' ], function( guiTools, deferred, mediator, server, tools ) {
 	"use strict";
-	
-	var guiTools	= require( 'guitools' ),
-		deferred	= require( 'deferred' ),
-		mediator	= require( 'mediator' ),
-		server		= require( 'server' );
 		
 	var Public			= Object.create( null ),
-		nodes			= guiTools.cacheNodes( By.className( 'content' )[ 0 ] );
+		By				= guiTools.By,
+		type			= tools.type,
+		nodes;
 		
 	var ownName = 'villain';
-		
-	nodes['BUTTON.login'].addEventListener( 'click', onLoginClick, false );
-	nodes['DIV.app'].addEventListener( 'click', onGetClick, false );
+	
+	tools.mixin( Public ).with({
+		init:		init,
+		destroy:	destroy
+	});
 	
 	server.on( 'moneyrequested', onMoneyRequested );
 	
-	// locals
+	return Public;
+	
+	// -- local helpers --
+	function init() {
+		console.log( 'content.js init' );
+		
+		nodes = guiTools.cacheNodes( By.className( 'content' )[ 0 ] );
+		
+		nodes['BUTTON.login'].addEventListener( 'click', onLoginClick, false );
+		nodes['DIV.app'].addEventListener( 'click', onGetClick, false );
+	}
+	
+	function destroy() {
+	}
+	
 	function onMoneyRequested( data ) {
 		if( confirm( data.sender + ' will ' + data.amount + ' flocken von Dir haben..' ) ) {
 			server.emit( 'requestconfirmed', {
@@ -31,7 +44,7 @@ define(function( require, exports, module ) {
 				case 'success':
 					ownName = data.name;
 					
-					if( Object.type( data.people ) === 'Array' ) {
+					if( type( data.people ) === 'Array' ) {
 						data.people.forEach( addNewLine );
 					}
 
@@ -44,7 +57,7 @@ define(function( require, exports, module ) {
 			}
 		}
 		
-		// locals
+		// -- local helpers --
 		function addNewLine( name ) {
 			var tmpl	= '<span class="name">%r</span><span class="status">%r</span><button data-target="%r" class="getmoney">Schulden eintreiben</button>'.sFormat( name, '0', name ),
 				div 	= document.createElement( 'div' );
@@ -74,7 +87,7 @@ define(function( require, exports, module ) {
 			}, onGetMoneyResponse );
 		}
 		
-		// locals
+		// -- local helpers --
 		function onGetMoneyResponse( data ) {
 		}
 	}
