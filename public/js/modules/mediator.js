@@ -26,41 +26,36 @@ define([ 'es5shim', 'tools' ], function( es5shim, tools ) {
 		doc			= win.document,
 		undef;
 
-	Public.emit = function _dispatch( messageInfo ) {
+	Public.emit = function _dispatch( eventName, eventData, callback ) {
 		win.setTimeout(function _setTimeoutDispatch() {
 			var listenerCount = 0;
 			
-			if( type( messageInfo ) === 'Object' ) {
-				if( typeof messageInfo.name === 'string' ) {
+			if( type( eventName ) === 'String' ) {
 			//console.groupCollapsed('MEDIATOR: Dispatching event ', messageInfo.name);
-					if( messageInfo.name in messagePool ) {
-						messagePool[ messageInfo.name ].some(function _some( listener, idx ) {
-							try {
-						//	console.info( 'eventData for listener #' + idx );
-						//	console.dir( messageInfo );
-								listener.callback.apply( listener.scope, [ messageInfo ] );
-								listenerCount++;
-							} catch( ex ) {
-								throw new Error( 'unable to dispatch event "' + messageInfo.name + '". Original error: "' + ex.message + '"' );
-							}
-						
-							return messageInfo.stopPropagation;
-						});
-					}
+				if( eventName in messagePool ) {
+					messagePool[ eventName ].some(function _some( listener, idx ) {
+						try {
+					//	console.info( 'eventData for listener #' + idx );
+					//	console.dir( messageInfo );
+							listener.callback.call( listener.scope, eventData );
+							listenerCount++;
+						} catch( ex ) {
+							throw new Error( 'unable to dispatch event "' + eventName + '". Original error: "' + ex.message + '"' );
+						}
 					
-					if( typeof messageInfo.callback === 'function' ) {
-						messageInfo.callback( listenerCount, messageInfo.response );
-					}
+						return eventData.stopPropagation;
+					});
+				}
+				
+				if( typeof callback === 'function' ) {
+					callback( listenerCount, eventData.response );
+				}
 			//console.groupEnd();
-				}
-				else {
-					throw new Error( 'expected an event type as string' );
-				}
 			}
 			else {
-				throw new Error( 'expected an object' );
+				throw new Error( 'mediator: emit() expects eventName as string(required) / eventData(optional) / callback as function(optional).' );
 			}
-		}, 0);
+		}, 13);
 	};
 
 	Public.on = function _listen( eventName, callback, scope ) {

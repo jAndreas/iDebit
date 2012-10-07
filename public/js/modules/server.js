@@ -2,7 +2,7 @@ define([ 'deferred', 'socket.io' ], function( deferred, io ) {
 	"use strict";
 	
 	var Public		= Object.create( null ),
-		socket		= io.connect('http://typeofnan.com:80/');
+		socket		= io.connect('http://typeofnan.com:8003/');
 		
 	socket.on( 'connect', doConnect );
 	

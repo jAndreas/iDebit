@@ -4,7 +4,7 @@
   , "private": true
   , "dependencies": {
       "connect": "2.x"
-    , "express": "2.5.10"
+    , "express": "2.x"
     , "jade": ">= 0.0.1"
     , "socket.io": "0.9.9"
     , "felix-couchdb": ">= 0.0.1"

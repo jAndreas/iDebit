@@ -21,9 +21,11 @@
 		domReady(function( doc ) {
 			console.log('domReady, loading GUI modules...');
 			
-			mWindow.init();
-			mHeader.init();
-			mContent.init();
+			[ mWindow, mHeader, mContent ].forEach( initializeModule );
+			
+			function initializeModule( module ) {
+				module.init();
+			}
 		});
 	}
 }());

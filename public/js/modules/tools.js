@@ -7,15 +7,57 @@ define([ 'es5shim' ], function( es5shim ) {
 		defineProp	= Object.defineProperty,
 		props		= Object.getOwnPropertyNames,
 		slice		= Array.prototype.slice,
+		forEach		= Array.prototype.forEach,
+		
 		lastError	= [ ],
 		win			= window,
 		doc			= win.document,
 		undef;
-		
-	// mixin() - extends an object by with a source
-	Public.mixin = function _mixin( target ) {
+	
+	mix( Public ).with({
+		mix:					mix,
+		type:					type,
+		hasKeys:				hasKeys,
+		map:					map,
+		slice:					slice,
+		forEach:				forEach,
+		props:					props,
+		defineProp:				defineProp,
+		desc:					desc,
+		win:					win,
+		doc:					doc,
+		requestAnimationFrame:	(function() {
+			return	win.requestAnimationFrame       || 
+					win.webkitRequestAnimationFrame || 
+					win.mozRequestAnimationFrame    || 
+					win.oRequestAnimationFrame      || 
+					win.msRequestAnimationFrame     || 
+					animationInterval;
+					
+			function animationInterval( callback ) {
+				win.setTimeout( animator, 1000 / 60 );
+				
+				function animator() {
+					if( 'hasFocus' in doc ) {
+						if( doc.hasFocus() ) {
+							callback();
+						} else {
+							_animationInterval( callback );
+						}
+					} else {
+						callback();
+					}
+				}
+			}
+		}())
+	});
+
+	/* -- locals */
+	
+	// mixin() - extends an object with a source
+	function mix( target ) {
 		return {
-			with: function( source ) {
+			'with': function _with( source ) {
 				props( source ).forEach( loopKeys );
 			
 				return target;
@@ -27,9 +69,9 @@ define([ 'es5shim' ], function( es5shim ) {
 			}
 		};
 	};
-
+	
 	// .type() - Non-standard. Returns the [[Class]] property from an object. Returns 'Node' for all HTMLxxxElement collections
-	Public.type = function _type( obj ) {
+	function type( obj ) {
 		var res = toStr.call( obj ).split( ' ' )[ 1 ].replace( ']', '' );
 		
 		if( obj === win ) {
@@ -46,7 +88,7 @@ define([ 'es5shim' ], function( es5shim ) {
 	};
 	
 	// .hasKeys() - Non-standard. Returns true if all keys are available in an object
-	Public.hasKeys = function _hasKeys( obj, keys ) {
+	function hasKeys( obj, keys ) {
 		if( typeof keys === 'string' ) {
 			keys = keys.split( /\s/ );
 		}
@@ -65,7 +107,7 @@ define([ 'es5shim' ], function( es5shim ) {
 	};
 	
 	// .map - Non-standard. Takes an object and a transform method (which gets passed in key/values). The Method must return an Array with new key/value pair
-	Public.map = function _map( obj, transform ) {
+	function map( obj, transform ) {
 		if( Public.type( obj ) === 'Object' && Public.type( transform ) === 'Function' ) {
 			Object.keys( obj ).forEach(function _forEach( key ) {
 				(function _mapping( oldkey, transmuted ) {
@@ -84,39 +126,14 @@ define([ 'es5shim' ], function( es5shim ) {
 	// simplified sprintf() - Non-standard
 	String.prototype.sFormat = function _simpleFormat( map ) {
 		var myString	= this.toString(),
-			args		= Public.type( map ) === 'Array' ? map : slice.call( arguments ),
-			next		= 0;
+			args		= Public.type( map ) === 'Array' ? map : slice.call( arguments );
 	
 		while( ~myString.indexOf( '%r' ) ) {
-			myString = myString.replace( '%r', args[ next++ ] );
+			myString = myString.replace( '%r', args.shift() );
 		}
 		
 		return myString;
 	};
-	
-	// .requestAnimationFrame()
-	Public.requestAnimFrame = (function() {
-		return	win.requestAnimationFrame       || 
-				win.webkitRequestAnimationFrame || 
-				win.mozRequestAnimationFrame    || 
-				win.oRequestAnimationFrame      || 
-				win.msRequestAnimationFrame     || 
-				function _animationInterval( callback ) {
-					win.setTimeout( function() {
-						if( 'hasFocus' in doc ) {
-							if( doc.hasFocus() ) {
-								callback();
-							}
-							else {
-								_animationInterval( callback );
-							}
-						}
-						else {
-							callback();
-						}
-					}, 1000 / 60 );
-				};
-	}());
 	
 	win.getLastError = function( offset ) {
 		if( typeof offset === 'number' ) {

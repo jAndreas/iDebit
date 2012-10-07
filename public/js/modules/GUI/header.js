@@ -5,7 +5,7 @@ define([ 'guitools', 'deferred', 'mediator', 'tools' ], function( guiTools, defe
 		By			= guiTools.By,
 		nodes;
 		
-	tools.mixin( Public ).with({
+	tools.mix( Public ).with({
 		init:		init,
 		destroy:	destroy
 	});
@@ -16,7 +16,7 @@ define([ 'guitools', 'deferred', 'mediator', 'tools' ], function( guiTools, defe
 	function init() {
 		console.log( 'header.js init' );
 		
-		nodes = guiTools.cacheNodes( By.className( 'header' )[ 0 ] );
+		nodes = guiTools.cacheNodes( By.class( 'header' )[ 0 ] );
 	}
 	
 	function destroy() {

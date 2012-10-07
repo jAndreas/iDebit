@@ -8,7 +8,7 @@ define([ 'guitools', 'deferred', 'mediator', 'server', 'tools' ], function( guiT
 		
 	var ownName = 'villain';
 	
-	tools.mixin( Public ).with({
+	tools.mix( Public ).with({
 		init:		init,
 		destroy:	destroy
 	});
@@ -21,10 +21,10 @@ define([ 'guitools', 'deferred', 'mediator', 'server', 'tools' ], function( guiT
 	function init() {
 		console.log( 'content.js init' );
 		
-		nodes = guiTools.cacheNodes( By.className( 'content' )[ 0 ] );
+		nodes = guiTools.cacheNodes( By.class( 'content' )[ 0 ] );
 		
-		nodes['BUTTON.login'].addEventListener( 'click', onLoginClick, false );
-		nodes['DIV.app'].addEventListener( 'click', onGetClick, false );
+		nodes['button.login'].addEventListener( 'click', onLoginClick, false );
+		nodes['div.app'].addEventListener( 'click', onGetClick, false );
 	}
 	
 	function destroy() {
@@ -48,8 +48,8 @@ define([ 'guitools', 'deferred', 'mediator', 'server', 'tools' ], function( guiT
 						data.people.forEach( addNewLine );
 					}
 
-					nodes['DIV.login'].className = nodes['DIV.login'].className + ' hidden';
-					nodes['DIV.app'].className = nodes['DIV.app'].className + ' visible';
+					nodes['div.login'].className = nodes['div.login'].className + ' hidden';
+					nodes['div.app'].className = nodes['div.app'].className + ' visible';
 					break;
 				case 'fail':
 					alert('login failed');
@@ -65,14 +65,14 @@ define([ 'guitools', 'deferred', 'mediator', 'server', 'tools' ], function( guiT
 			div.className = 'infoLine';
 			div.innerHTML = tmpl;
 			
-			nodes['DIV.app'].appendChild( div );
+			nodes['div.app'].appendChild( div );
 		}
 	}
 	
 	function onLoginClick( event ) {
 		server.emit( 'login', {
-			name:		nodes['INPUT.username'].value,
-			password:	nodes['INPUT.password'].value
+			name:		nodes['input.username'].value,
+			password:	nodes['input.password'].value
 		}, onLoginResponse );
 	}
 	

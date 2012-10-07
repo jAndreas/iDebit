@@ -2,31 +2,48 @@ define([ 'es5shim', 'tools' ], function( es5shim, tools ) {
 	"use strict";
 
 	var Public	= Object.create( null ),
-		win		= window,
-		doc		= win.document,
+		win		= tools.win,
+		doc		= tools.doc,
 		type	= tools.type,
-		nodeHash, availableNames;
+		slice	= tools.slice,
+		nodeHash, availableNames, undef;
 	
-	tools.mixin( Public ).with({
+	tools.mix( Public ).with({
+		$:				createNodeInstance,
 		cacheNodes:		cacheNodes,
 		By:				{
-			id: function byId(id) {
-				return doc.getElementById( id );
+			'id':		function byId( id ) {
+				return slice.call([ doc.getElementById( id ) ]);
 			},
-			tag: function byTagName( tag, context ) {
-				return (context || doc).getElementsByTagName( tag );
+			'tag':		function byTagName( tag, ctx ) {
+				return slice.call( this.makeCtx( ctx ).getElementsByTagName( tag ) );
 			},
-			className: function byClass( className, context ) {
-				return (context || doc).getElementsByClassName( className );
+			'class':	function byClass( className, ctx ) {
+				return slice.call( this.makeCtx( ctx ).getElementsByClassName( className ) );
 			},
-			name: function byName( name ) {
-				return doc.getElementsByName( name );
+			'name':		function byName( name ) {
+				return slice.call( doc.getElementsByName( name ) );
 			},
-			qsa: function byQuery(query, context) {
-				return (context || doc).querySelectorAll( query );
+			'qsa':		function byQuery( query, ctx ) {
+				return slice.call( this.makeCtx( ctx ).querySelectorAll( query ) );
 			},
-			qs: function byQueryOne(query, context) {
-				return (context || doc).querySelector( query );
+			'qs':		function byQueryOne( query, ctx ) {
+				return slice.call([ this.makeCtx( ctx ).querySelector( query ) ]);
+			},
+			'makeCtx':	function makeContext( ctx ) {
+				if( typeof ctx === 'string' ) {
+					switch( ctx.charAt( 0 ) ) {
+						case '#':	return this.id( ctx.slice( 1 ) )[ 0 ];
+						case '.':	return this.class( ctx.slice( 1 ) )[ 0 ];
+						default:	return this.qs( ctx )[ 0 ];
+					}
+				} else if( type( ctx ) === 'Node' ) {
+					return ctx;
+				} else if( ctx === undef ) {
+					return doc;
+				} else {
+					throw new TypeError( 'By() requires a node reference or a query string as context argument' );
+				} 
 			}
 		}
 	});
@@ -34,15 +51,19 @@ define([ 'es5shim', 'tools' ], function( es5shim, tools ) {
 	return Public;
 	
 	// -- local helpers --
+	function createNodeInstance( nodesArray ) {
+	}
+	
 	function crawlNodes( node ) {
 		var currentTag = null,
 			i, len;
 	
 		if( type( node ) === 'Node' ) {
-			currentTag = node.id ? node.nodeName + '#' + node.id : null || node.className ? node.nodeName + "." + node.className.split( /\s+/ )[ 0 ] : null || node.nodeName;
+			currentTag = node.nodeName.toLowerCase() + ( node.id ? ('#' + node.id) : node.className ? ('.' + node.className.split( /\s+/ )[ 0 ]) : '' );
 			
 			// avoid duplicates, keep track on the number of identical identifiers
-			if( typeof availableNames[ currentTag ] === 'undefined' ) { availableNames[ currentTag ] = 1;
+			if( typeof availableNames[ currentTag ] === 'undefined' ) {
+				availableNames[ currentTag ] = 1;
 			}
 			else {
 				availableNames[ currentTag ]++;
@@ -53,10 +74,10 @@ define([ 'es5shim', 'tools' ], function( es5shim, tools ) {
 				nodeHash[ currentTag ] = node;
 			}
 			else {
-				nodeHash[ currentTag + availableNames[ currentTag ] ] = node;
+				nodeHash[ currentTag + '(' + availableNames[ currentTag ] + ')' ] = node;
 			}
 			
-			// loop over every childnode, if we have children of children, recursively recall cacheNodes()
+			// loop over every childnode, if we have children of children, recursively recall crawlNodes()
 			if( node.children.length ) {
 				for( i = 0, len = node.children.length; i < len; i++ ) {
 					crawlNodes( node.children[ i ] );

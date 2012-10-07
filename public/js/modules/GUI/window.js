@@ -4,7 +4,7 @@ define([ 'deferred', 'mediator', 'server', 'tools' ], function( deferred, mediat
 	var Public	= Object.create( null ),
 		when	= Function.prototype.apply.bind( deferred.when, null );
 	
-	tools.mixin( Public ).with({
+	tools.mix( Public ).with({
 		init:		init,
 		destroy:	destroy
 	});
@@ -23,7 +23,7 @@ define([ 'deferred', 'mediator', 'server', 'tools' ], function( deferred, mediat
 	}
 	
 	function onLoad() {
-		mediator.emit({ name: 'windowLoad' });
+		mediator.emit( 'windowLoad' );
 
 	}
 	
