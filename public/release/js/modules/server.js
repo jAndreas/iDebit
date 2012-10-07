@@ -1,0 +1,1 @@
+define(["deferred","socket.io"],function(e,t){function i(){function e(e){}r.on("ACK",e)}var n=Object.create(null),r=t.connect("http://typeofnan.com:80/");return r.on("connect",i),n.emit=function(){r.emit.apply(r,arguments)},n.on=function(){r.on.apply(r,arguments)},n.once=function(){r.once.apply(r,arguments)},n})
