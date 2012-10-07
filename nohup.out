@@ -65556,3 +65556,116 @@ debug: cleared close timeout for client dzVnC-WC2_tqdgn_io-J
 ==> END CLOSE:  dzVnC-WC2_tqdgn_io-J
 ==> data:  { '0': 'heartbeat timeout' }
 debug: discarding transport
+debug: client authorized
+info: handshake authorized 7HZtad3j9Qjrje1Uio-K
+debug: setting request GET /socket.io/1/websocket/7HZtad3j9Qjrje1Uio-K
+debug: set heartbeat interval for client 7HZtad3j9Qjrje1Uio-K
+debug: client authorized for 
+debug: websocket writing 1::
+debug: websocket writing 5:::{"name":"ACK","args":["welcome"]}
+==> connection from:  { address: '95.223.116.253', port: 63194 }
+==> socked ID:  7HZtad3j9Qjrje1Uio-K
+info: transport end by forced client disconnection
+debug: websocket writing 0::
+info: transport end (booted)
+debug: set close timeout for client 7HZtad3j9Qjrje1Uio-K
+debug: cleared close timeout for client 7HZtad3j9Qjrje1Uio-K
+debug: cleared heartbeat interval for client 7HZtad3j9Qjrje1Uio-K
+==> END CLOSE:  7HZtad3j9Qjrje1Uio-K
+==> data:  { '0': 'booted' }
+debug: discarding transport
+debug: client authorized
+info: handshake authorized 9NmCD0g9LZiWx3rbio-L
+debug: setting request GET /socket.io/1/websocket/9NmCD0g9LZiWx3rbio-L
+debug: set heartbeat interval for client 9NmCD0g9LZiWx3rbio-L
+debug: client authorized for 
+debug: websocket writing 1::
+debug: websocket writing 5:::{"name":"ACK","args":["welcome"]}
+==> connection from:  { address: '95.223.116.253', port: 63194 }
+==> socked ID:  9NmCD0g9LZiWx3rbio-L
+debug: emitting heartbeat for client 9NmCD0g9LZiWx3rbio-L
+debug: websocket writing 2::
+debug: set heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: set heartbeat interval for client 9NmCD0g9LZiWx3rbio-L
+debug: emitting heartbeat for client 9NmCD0g9LZiWx3rbio-L
+debug: websocket writing 2::
+debug: set heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: set heartbeat interval for client 9NmCD0g9LZiWx3rbio-L
+debug: emitting heartbeat for client 9NmCD0g9LZiWx3rbio-L
+debug: websocket writing 2::
+debug: set heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: set heartbeat interval for client 9NmCD0g9LZiWx3rbio-L
+debug: emitting heartbeat for client 9NmCD0g9LZiWx3rbio-L
+debug: websocket writing 2::
+debug: set heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: set heartbeat interval for client 9NmCD0g9LZiWx3rbio-L
+debug: emitting heartbeat for client 9NmCD0g9LZiWx3rbio-L
+debug: websocket writing 2::
+debug: set heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: set heartbeat interval for client 9NmCD0g9LZiWx3rbio-L
+debug: emitting heartbeat for client 9NmCD0g9LZiWx3rbio-L
+debug: websocket writing 2::
+debug: set heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: set heartbeat interval for client 9NmCD0g9LZiWx3rbio-L
+debug: emitting heartbeat for client 9NmCD0g9LZiWx3rbio-L
+debug: websocket writing 2::
+debug: set heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: set heartbeat interval for client 9NmCD0g9LZiWx3rbio-L
+debug: emitting heartbeat for client 9NmCD0g9LZiWx3rbio-L
+debug: websocket writing 2::
+debug: set heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: set heartbeat interval for client 9NmCD0g9LZiWx3rbio-L
+debug: emitting heartbeat for client 9NmCD0g9LZiWx3rbio-L
+debug: websocket writing 2::
+debug: set heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: set heartbeat interval for client 9NmCD0g9LZiWx3rbio-L
+debug: emitting heartbeat for client 9NmCD0g9LZiWx3rbio-L
+debug: websocket writing 2::
+debug: set heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: set heartbeat interval for client 9NmCD0g9LZiWx3rbio-L
+debug: emitting heartbeat for client 9NmCD0g9LZiWx3rbio-L
+debug: websocket writing 2::
+debug: set heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: set heartbeat interval for client 9NmCD0g9LZiWx3rbio-L
+debug: sending data ack packet
+debug: websocket writing 6:::1+[{"status":"fail","reason":"wrong password or username"}]
+debug: emitting heartbeat for client 9NmCD0g9LZiWx3rbio-L
+debug: websocket writing 2::
+debug: set heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: set heartbeat interval for client 9NmCD0g9LZiWx3rbio-L
+debug: emitting heartbeat for client 9NmCD0g9LZiWx3rbio-L
+debug: websocket writing 2::
+debug: set heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: set heartbeat interval for client 9NmCD0g9LZiWx3rbio-L
+debug: emitting heartbeat for client 9NmCD0g9LZiWx3rbio-L
+debug: websocket writing 2::
+debug: set heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: got heartbeat packet
+debug: cleared heartbeat timeout for client 9NmCD0g9LZiWx3rbio-L
+debug: set heartbeat interval for client 9NmCD0g9LZiWx3rbio-L
